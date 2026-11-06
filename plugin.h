@@ -1,26 +1,52 @@
 #pragma once
-
-#include "GuiBase.h"
 #include "bakkesmod/plugin/bakkesmodplugin.h"
 #include "bakkesmod/plugin/pluginwindow.h"
 #include "bakkesmod/plugin/PluginSettingsWindow.h"
+#include <chrono>
 
-#include "version.h"
-constexpr auto plugin_version = stringify(VERSION_MAJOR) "." stringify(VERSION_MINOR) "." stringify(VERSION_PATCH) "." stringify(VERSION_BUILD);
+struct TargetOrientation {
+    Rotator targetRotator;
+    Vector targetForward;
+    Vector targetUp;
+    Vector ballPosition;
+    bool hasTarget = false;
+};
 
-
-class $projectname$: public BakkesMod::Plugin::BakkesModPlugin
-	//,public SettingsWindowBase // Uncomment if you wanna render your own tab in the settings menu
-	//,public PluginWindowBase // Uncomment if you want to render your own plugin window
+class Plugin : public BakkesMod::Plugin::BakkesModPlugin, public BakkesMod::Plugin::PluginSettingsWindow
 {
-
-	//std::shared_ptr<bool> enabled;
-
-	//Boilerplate
-	void onLoad() override;
-	//void onUnload() override; // Uncomment and implement if you need a unload method
-
 public:
-	//void RenderSettings() override; // Uncomment if you wanna render your own tab in the settings menu
-	//void RenderWindow() override; // Uncomment if you want to render your own plugin window
+    virtual void onLoad() override;
+    virtual void onUnload() override;
+
+    void Render(CanvasWrapper canvas);
+    void RenderSettings() override;
+    std::string GetPluginName() override;
+    void SetImGuiContext(uintptr_t ctx) override;
+
+private:
+    void OnPhysicsTick(std::string eventName);
+    void GenerateNewTarget(CarWrapper car);
+    bool CheckAlignment(CarWrapper car, float deltaTime);
+
+    // Settings
+    bool enabled = false;
+    bool requireRollAlignment = false;
+    float noseToleranceDegrees = 18.0f;
+    float rollToleranceDegrees = 25.0f;
+    float holdDuration = 0.10f;
+    float anchorZ = 600.0f;
+    float targetDistance = 800.0f;
+
+    // Telemetry
+    float currentNoseErrorDeg = 0.0f;
+    float currentRollErrorDeg = 0.0f;
+
+    // Runtime
+    bool initializedTarget = false;
+    Vector anchorPosition = { 0.f, 0.f, 600.f };
+    TargetOrientation currentTarget;
+    float currentHoldTime = 0.0f;
+    std::chrono::steady_clock::time_point targetStartTime;
+    float lastReactionTimeMs = 0.0f;
+    int targetsCompleted = 0;
 };

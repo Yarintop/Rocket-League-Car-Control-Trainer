@@ -107,7 +107,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="$projectname$.cpp" />
+    <ClCompile Include="Plugin.cpp" />
     <ClCompile Include="GuiBase.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -128,11 +128,11 @@
     <ClInclude Include="logging.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="GuiBase.h" />
-    <ClInclude Include="$projectname$.h" />
+    <ClInclude Include="Plugin.h" />
     <ClInclude Include="version.h" />
   </ItemGroup>
     <ItemGroup>
-    <ResourceCompile Include="$projectname$.rc" />
+    <ResourceCompile Include="Plugin.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

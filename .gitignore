@@ -1,7 +1,20 @@
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-*.code-workspace
-.vscode/settings.json
+﻿# Visual Studio / MSBuild
+.vs/
+build/
+bin/
+obj/
+*.user
+*.suo
+*.pch
+*.ipch
+*.idb
+*.pdb
+*.ilk
+*.exp
+build-command.md
+
+# Output binaries
+plugins/
+output/
+*.dll
+*.zip
